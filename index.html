@@ -13,58 +13,64 @@
       --text: #12192e;
       --text-muted: #4a5270;
       --surface: rgba(255,255,255,0.55);
-      --surface-hover: rgba(255,255,255,0.75);
       --border: rgba(18,25,46,0.1);
       --accent: #12192e;
       --accent-light: #1e2d52;
       --input-bg: rgba(255,255,255,0.6);
       --shadow: rgba(18,25,46,0.12);
+
+      --chat-bg: #0a0d12;
+      --chat-surface: #111620;
+      --chat-surface2: #181e2a;
+      --chat-border: rgba(255,255,255,0.07);
+      --chat-accent: #2e9bda;
+      --chat-accent2: #1a6fa8;
+      --chat-text: #e8edf5;
+      --chat-muted: #6b7a96;
+      --user-bubble: #1a3a52;
+      --bot-bubble: #161c28;
+      --chat-glow: rgba(46,155,218,0.15);
     }
 
-    html, body {
-      height: 100%;
+    html, body { height: 100%; font-family: 'Outfit', sans-serif; overflow: hidden; }
+
+    /* ===================== LOGIN ===================== */
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
       background: var(--bg);
-      font-family: 'Outfit', sans-serif;
-      color: var(--text);
-      overflow: hidden;
-    }
-
-    /* Subtle background shapes */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -30%;
-      right: -20%;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -20%;
-      left: -15%;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(18,25,46,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .page {
-      position: relative;
-      z-index: 1;
-      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
     }
 
-    .card {
+    #loginScreen.hidden { display: none; }
+
+    #loginScreen::before {
+      content: '';
+      position: fixed;
+      top: -30%; right: -20%;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    #loginScreen::after {
+      content: '';
+      position: fixed;
+      bottom: -20%; left: -15%;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(18,25,46,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .login-card {
+      position: relative;
+      z-index: 1;
       background: var(--surface);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -76,23 +82,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;
-      box-shadow:
-        0 8px 32px var(--shadow),
-        0 1px 0 rgba(255,255,255,0.8) inset;
+      box-shadow: 0 8px 32px var(--shadow), 0 1px 0 rgba(255,255,255,0.8) inset;
       animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Logo */
-    .logo-wrap {
-      position: relative;
-      margin-bottom: 28px;
-    }
+    .logo-wrap { margin-bottom: 28px; }
 
     .logo-ring {
       width: 160px;
@@ -100,80 +94,48 @@
       border-radius: 50%;
       background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(207,208,235,0.5));
       border: 1px solid rgba(255,255,255,0.9);
-      box-shadow:
-        0 8px 32px rgba(18,25,46,0.15),
-        0 2px 8px rgba(18,25,46,0.1),
-        0 0 0 6px rgba(255,255,255,0.3);
+      box-shadow: 0 8px 32px rgba(18,25,46,0.15), 0 2px 8px rgba(18,25,46,0.1), 0 0 0 6px rgba(255,255,255,0.3);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .logo-ring img {
-      width: 110px;
-      height: 110px;
+      width: 110px; height: 110px;
       object-fit: contain;
       filter: drop-shadow(0 4px 12px rgba(18,25,46,0.2));
     }
 
+    .login-heading { text-align: center; margin-bottom: 32px; }
 
-
-    /* Heading */
-    .heading {
-      text-align: center;
-      margin-bottom: 32px;
+    .login-heading h1 {
+      font-size: 2rem; font-weight: 700;
+      color: var(--text); letter-spacing: -0.02em;
     }
 
-    .heading h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+    .login-heading p {
+      font-size: 0.92rem; color: var(--text-muted);
+      margin-top: 8px; line-height: 1.5;
     }
 
-    .heading p {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      margin-top: 8px;
-      font-weight: 400;
-      line-height: 1.5;
-    }
-
-    /* Form */
-    .form {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+    .login-form { width: 100%; display: flex; flex-direction: column; gap: 14px; }
 
     .field-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      display: block;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-muted); letter-spacing: 0.1em;
+      text-transform: uppercase; display: block; margin-bottom: 6px;
     }
 
-    .input-wrap {
-      position: relative;
-    }
+    .input-wrap { position: relative; }
 
     .input-wrap svg {
-      position: absolute;
-      left: 16px;
-      top: 50%;
+      position: absolute; left: 16px; top: 50%;
       transform: translateY(-50%);
-      width: 18px;
-      height: 18px;
-      color: var(--text-muted);
-      pointer-events: none;
+      width: 18px; height: 18px;
+      color: var(--text-muted); pointer-events: none;
     }
 
-    input[type="text"] {
+    .login-input {
       width: 100%;
       background: var(--input-bg);
       border: 1.5px solid var(--border);
@@ -181,89 +143,275 @@
       padding: 15px 18px 15px 46px;
       color: var(--text);
       font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 400;
+      font-size: 0.95rem; font-weight: 400;
       outline: none;
       transition: all 0.2s;
       box-shadow: 0 2px 8px rgba(18,25,46,0.06);
     }
 
-    input[type="text"]:focus {
+    .login-input:focus {
       border-color: var(--accent);
       background: rgba(255,255,255,0.8);
-      box-shadow: 0 0 0 4px rgba(18,25,46,0.08), 0 2px 8px rgba(18,25,46,0.06);
+      box-shadow: 0 0 0 4px rgba(18,25,46,0.08);
     }
 
-    input[type="text"]::placeholder {
-      color: rgba(74,82,112,0.5);
-      font-weight: 300;
-    }
+    .login-input::placeholder { color: rgba(74,82,112,0.5); font-weight: 300; }
+    .login-input.error { border-color: #e05555; box-shadow: 0 0 0 4px rgba(224,85,85,0.1); }
 
-    input[type="text"].error {
-      border-color: #e05555;
-      box-shadow: 0 0 0 4px rgba(224,85,85,0.1);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 16px;
+    .login-btn {
+      width: 100%; padding: 16px;
       border-radius: 14px;
       background: var(--text);
-      border: none;
-      color: #cfd0eb;
+      border: none; color: #cfd0eb;
       font-family: 'Outfit', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.01em;
+      font-size: 1rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
       margin-top: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
       box-shadow: 0 4px 16px rgba(18,25,46,0.25);
     }
 
-    .btn:hover {
-      background: var(--accent-light);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(18,25,46,0.3);
+    .login-btn:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .login-btn:active { transform: translateY(0); }
+    .login-btn svg { width: 18px; height: 18px; transition: transform 0.2s; }
+    .login-btn:hover svg { transform: translateX(4px); }
+
+    /* ===================== CHAT ===================== */
+    #chatScreen {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: var(--chat-bg);
+      color: var(--chat-text);
+      max-width: 860px;
+      margin: 0 auto;
     }
 
-    .btn:active { transform: translateY(0); }
+    #chatScreen.hidden { display: none; }
 
-    .btn svg {
-      width: 18px;
-      height: 18px;
-      transition: transform 0.2s;
+    #chatScreen::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(46,155,218,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,155,218,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none; z-index: 0;
     }
 
-    .btn:hover svg { transform: translateX(4px); }
+    .chat-header {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--chat-border);
+      backdrop-filter: blur(12px);
+    }
 
+    .chat-header-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--chat-accent) 0%, var(--chat-accent2) 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 20px var(--chat-glow);
+      overflow: hidden; flex-shrink: 0;
+    }
 
+    .chat-header-icon img { width: 32px; height: 32px; object-fit: contain; }
+
+    .chat-header-text h1 {
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--chat-text);
+    }
+
+    .chat-header-text p { font-size: 0.75rem; color: var(--chat-muted); margin-top: 1px; }
+
+    .chat-header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+
+    .user-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--chat-surface);
+      border: 1px solid var(--chat-border);
+      border-radius: 20px;
+      padding: 6px 14px 6px 10px;
+      font-size: 0.8rem; color: var(--chat-muted);
+    }
+
+    .user-avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--chat-accent), var(--chat-accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; color: white;
+    }
+
+    .status { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--chat-muted); }
+
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #4ade80; box-shadow: 0 0 8px #4ade80;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+    .messages {
+      position: relative; z-index: 1;
+      flex: 1; overflow-y: auto;
+      padding: 28px 32px;
+      display: flex; flex-direction: column; gap: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-thumb { background: var(--chat-border); border-radius: 4px; }
+
+    .msg {
+      display: flex; flex-direction: column;
+      max-width: 78%;
+      animation: fadeUp 0.3s ease;
+    }
+
+    .msg.user { align-self: flex-end; align-items: flex-end; }
+    .msg.bot { align-self: flex-start; align-items: flex-start; }
+
+    .msg-label {
+      font-size: 0.68rem; color: var(--chat-muted);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+      text-transform: uppercase; font-weight: 500;
+    }
+
+    .bubble {
+      padding: 14px 18px; border-radius: 16px;
+      font-size: 0.9rem; line-height: 1.65; font-weight: 300;
+    }
+
+    .msg.user .bubble {
+      background: var(--user-bubble);
+      border: 1px solid rgba(46,155,218,0.2);
+      border-bottom-right-radius: 4px;
+      color: var(--chat-text);
+    }
+
+    .msg.bot .bubble {
+      background: var(--bot-bubble);
+      border: 1px solid var(--chat-border);
+      border-bottom-left-radius: 4px;
+      color: var(--chat-text);
+    }
+
+    .msg.bot .bubble strong { color: var(--chat-accent); font-weight: 500; }
+    .msg.bot .bubble ul { padding-left: 18px; margin: 8px 0; }
+    .msg.bot .bubble li { margin-bottom: 4px; }
+
+    .typing {
+      display: none; align-self: flex-start;
+      background: var(--bot-bubble);
+      border: 1px solid var(--chat-border);
+      border-radius: 16px; border-bottom-left-radius: 4px;
+      padding: 14px 20px; gap: 6px; align-items: center;
+    }
+
+    .typing.visible { display: flex; }
+
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--chat-accent);
+      animation: bounce 1.2s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    .chat-input-area {
+      position: relative; z-index: 2;
+      padding: 20px 32px 28px;
+      border-top: 1px solid var(--chat-border);
+      backdrop-filter: blur(12px);
+    }
+
+    .input-wrapper {
+      display: flex; align-items: flex-end; gap: 12px;
+      background: var(--chat-surface);
+      border: 1px solid var(--chat-border);
+      border-radius: 16px; padding: 12px 16px;
+      transition: border-color 0.2s;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: rgba(46,155,218,0.4);
+      box-shadow: 0 0 20px rgba(46,155,218,0.06);
+    }
+
+    .chat-textarea {
+      flex: 1; background: transparent; border: none; outline: none;
+      color: var(--chat-text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem; font-weight: 300;
+      resize: none; max-height: 140px; line-height: 1.6; min-height: 24px;
+    }
+
+    .chat-textarea::placeholder { color: var(--chat-muted); }
+
+    .send-btn {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--chat-accent), var(--chat-accent2));
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.2s;
+      box-shadow: 0 0 16px var(--chat-glow);
+    }
+
+    .send-btn:hover { transform: scale(1.05); }
+    .send-btn:active { transform: scale(0.97); }
+    .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .send-btn svg { width: 18px; height: 18px; fill: white; }
+
+    .chat-footer {
+      text-align: center; font-size: 0.7rem;
+      color: var(--chat-muted); margin-top: 10px; opacity: 0.6;
+    }
+
+    .error-msg {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 12px; padding: 10px 16px;
+      font-size: 0.82rem; color: #f87171;
+      text-align: center; animation: fadeUp 0.3s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="card">
 
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <div class="login-card">
       <div class="logo-wrap">
         <div class="logo-ring">
           <img
             src="https://raw.githubusercontent.com/Rick94-dot/projetoJARVIS/main/LOGO%20DO%20JARVIS%20v4.png"
-            alt="JARVIS Logo"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<span style=\'font-size:42px\'>🦷</span>'"
+            alt="JARVIS"
+            onerror="this.style.display='none'"
           />
         </div>
       </div>
 
-      <div class="heading">
+      <div class="login-heading">
         <h1>Seja bem-vindo!</h1>
         <p>Sou o JARVIS, assistente da Odonto Empresas.<br>Como posso te chamar?</p>
       </div>
 
-      <div class="form">
+      <div class="login-form">
         <label class="field-label" for="nameInput">Seu nome</label>
         <div class="input-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -271,34 +419,87 @@
             <circle cx="12" cy="7" r="4"/>
           </svg>
           <input
-            type="text"
-            id="nameInput"
+            type="text" id="nameInput" class="login-input"
             placeholder="Digite seu nome aqui..."
-            onkeydown="handleKey(event)"
-            autocomplete="off"
-            autofocus
+            onkeydown="if(event.key==='Enter') startChat()"
+            autocomplete="off" autofocus
           />
         </div>
 
-        <button class="btn" onclick="startChat()">
+        <button class="login-btn" onclick="startChat()">
           Começar conversa
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </button>
       </div>
+    </div>
+  </div>
 
+  <!-- CHAT -->
+  <div id="chatScreen" class="hidden">
+    <div class="chat-header">
+      <div class="chat-header-icon">
+        <img src="https://raw.githubusercontent.com/Rick94-dot/projetoJARVIS/main/LOGO%20DO%20JARVIS%20v4.png" alt="JARVIS" onerror="this.style.display='none'" />
+      </div>
+      <div class="chat-header-text">
+        <h1>JARVIS</h1>
+        <p>Assistente Odonto Empresas</p>
+      </div>
+      <div class="chat-header-right">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">?</div>
+          <span id="userNameBadge">Usuário</span>
+        </div>
+        <div class="status">
+          <div class="status-dot"></div>
+          Online
+        </div>
+      </div>
+    </div>
+
+    <div class="messages" id="messages"></div>
+
+    <div class="chat-input-area">
+      <div class="input-wrapper">
+        <textarea
+          class="chat-textarea" id="chatInput"
+          placeholder="Digite sua dúvida..."
+          rows="1"
+          onkeydown="handleChatKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <div class="chat-footer">JARVIS pode cometer erros. Verifique informações importantes com nosso SAC: 0800 272 2000</div>
     </div>
   </div>
 
   <script>
-    function handleKey(e) {
-      if (e.key === 'Enter') startChat();
+    const API_URL = 'http://127.0.0.1:8000';
+    let SESSION_ID = localStorage.getItem('jarvis_session_id');
+    let userName = localStorage.getItem('jarvis_user_name');
+    let isLoading = false;
+
+    // Gera novo sessionID se não existir
+    if (!SESSION_ID) {
+      SESSION_ID = 'session-' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('jarvis_session_id', SESSION_ID);
     }
 
-    function startChat() {
+    // Ao carregar a página, verifica se usuário já tem nome salvo
+    window.addEventListener('load', () => {
+      if (userName) {
+        openChat(userName, false);
+      }
+    });
+
+    async function startChat() {
       const input = document.getElementById('nameInput');
       const name = input.value.trim();
+
       if (!name) {
         input.classList.add('error');
         input.placeholder = 'Por favor, informe seu nome';
@@ -309,8 +510,161 @@
         }, 2000);
         return;
       }
-      // Aqui vai redirecionar para o chat
-      alert(`Olá, ${name}! Redirecionando para o chat...`);
+
+      // Salva nome localmente e no MongoDB
+      localStorage.setItem('jarvis_user_name', name);
+      await fetch(`${API_URL}/set-name`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: SESSION_ID, name })
+      }).catch(() => {});
+
+      openChat(name, true);
+    }
+
+    function openChat(name, isNew) {
+      userName = name;
+
+      document.getElementById('userNameBadge').textContent = name;
+      document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('chatScreen').classList.remove('hidden');
+
+      if (isNew) {
+        sendWelcome();
+      } else {
+        // Usuário já conhecido, carrega histórico e manda saudação rápida
+        loadHistory();
+      }
+
+      setTimeout(() => document.getElementById('chatInput').focus(), 100);
+    }
+
+    async function loadHistory() {
+      try {
+        const res = await fetch(`${API_URL}/history/${SESSION_ID}`);
+        const data = await res.json();
+
+        if (data.history && data.history.length > 0) {
+          // Mostra as últimas 10 mensagens do histórico
+          const recent = data.history.slice(-10);
+          recent.forEach(msg => addMessage(msg.role === 'user' ? 'user' : 'bot', msg.content));
+        } else {
+          // Sem histórico, manda boas vindas normalmente
+          sendWelcome();
+        }
+      } catch {
+        sendWelcome();
+      }
+    }
+
+    async function sendWelcome() {
+      showTyping();
+      try {
+        const res = await fetch(`${API_URL}/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: SESSION_ID, message: `Olá, meu nome é ${userName}` })
+        });
+        const data = await res.json();
+        hideTyping();
+        addMessage('bot', data.response);
+      } catch {
+        hideTyping();
+        addMessage('bot', `Olá, ${userName}! Estou aqui para ajudar com suas dúvidas sobre a Odonto Empresas.`);
+      }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+    }
+
+    function handleChatKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function addMessage(role, text) {
+      const container = document.getElementById('messages');
+      const msg = document.createElement('div');
+      msg.className = `msg ${role}`;
+
+      const label = document.createElement('div');
+      label.className = 'msg-label';
+      label.textContent = role === 'user' ? userName : 'JARVIS';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.innerHTML = formatText(text);
+
+      msg.appendChild(label);
+      msg.appendChild(bubble);
+      container.appendChild(msg);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function formatText(text) {
+      return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function showTyping() {
+      const container = document.getElementById('messages');
+      if (document.getElementById('typing')) return;
+      const t = document.createElement('div');
+      t.className = 'typing visible';
+      t.id = 'typing';
+      t.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      container.appendChild(t);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function hideTyping() {
+      const el = document.getElementById('typing');
+      if (el) el.remove();
+    }
+
+    async function sendMessage() {
+      if (isLoading) return;
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      input.style.height = 'auto';
+      isLoading = true;
+      document.getElementById('sendBtn').disabled = true;
+
+      addMessage('user', text);
+      showTyping();
+
+      try {
+        const res = await fetch(`${API_URL}/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: SESSION_ID, message: text })
+        });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        hideTyping();
+        addMessage('bot', data.response);
+      } catch {
+        hideTyping();
+        const err = document.createElement('div');
+        err.className = 'error-msg';
+        err.textContent = 'Nao foi possivel conectar ao JARVIS. Verifique se o servidor esta rodando.';
+        document.getElementById('messages').appendChild(err);
+      } finally {
+        isLoading = false;
+        document.getElementById('sendBtn').disabled = false;
+        input.focus();
+      }
     }
   </script>
 </body>
