@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JARVIS — Odonto Empresas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #cfd0eb;
+      --text: #12192e;
+      --text-muted: #4a5270;
+      --surface: rgba(255,255,255,0.55);
+      --surface-hover: rgba(255,255,255,0.75);
+      --border: rgba(18,25,46,0.1);
+      --accent: #12192e;
+      --accent-light: #1e2d52;
+      --input-bg: rgba(255,255,255,0.6);
+      --shadow: rgba(18,25,46,0.12);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'Outfit', sans-serif;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* Subtle background shapes */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -30%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20%;
+      left: -15%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(18,25,46,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 28px;
+      padding: 52px 44px 44px;
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      box-shadow:
+        0 8px 32px var(--shadow),
+        0 1px 0 rgba(255,255,255,0.8) inset;
+      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Logo */
+    .logo-wrap {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .logo-ring {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(207,208,235,0.5));
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow:
+        0 8px 32px rgba(18,25,46,0.15),
+        0 2px 8px rgba(18,25,46,0.1),
+        0 0 0 6px rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-ring img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(18,25,46,0.2));
+    }
+
+
+
+    /* Heading */
+    .heading {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .heading h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .heading p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* Form */
+    .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .field-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 15px 18px 15px 46px;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      outline: none;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(18,25,46,0.06);
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 0 4px rgba(18,25,46,0.08), 0 2px 8px rgba(18,25,46,0.06);
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(74,82,112,0.5);
+      font-weight: 300;
+    }
+
+    input[type="text"].error {
+      border-color: #e05555;
+      box-shadow: 0 0 0 4px rgba(224,85,85,0.1);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--text);
+      border: none;
+      color: #cfd0eb;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.01em;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(18,25,46,0.25);
+    }
+
+    .btn:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(18,25,46,0.3);
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s;
+    }
+
+    .btn:hover svg { transform: translateX(4px); }
+
+
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+
+      <div class="logo-wrap">
+        <div class="logo-ring">
+          <img
+            src="https://raw.githubusercontent.com/Rick94-dot/projetoJARVIS/main/LOGO%20DO%20JARVIS%20v4.png"
+            alt="JARVIS Logo"
+            onerror="this.style.display='none'; this.parentElement.innerHTML += '<span style=\'font-size:42px\'>🦷</span>'"
+          />
+        </div>
+      </div>
+
+      <div class="heading">
+        <h1>Seja bem-vindo!</h1>
+        <p>Sou o JARVIS, assistente da Odonto Empresas.<br>Como posso te chamar?</p>
+      </div>
+
+      <div class="form">
+        <label class="field-label" for="nameInput">Seu nome</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <input
+            type="text"
+            id="nameInput"
+            placeholder="Digite seu nome aqui..."
+            onkeydown="handleKey(event)"
+            autocomplete="off"
+            autofocus
+          />
+        </div>
+
+        <button class="btn" onclick="startChat()">
+          Começar conversa
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function handleKey(e) {
+      if (e.key === 'Enter') startChat();
+    }
+
+    function startChat() {
+      const input = document.getElementById('nameInput');
+      const name = input.value.trim();
+      if (!name) {
+        input.classList.add('error');
+        input.placeholder = 'Por favor, informe seu nome';
+        input.focus();
+        setTimeout(() => {
+          input.classList.remove('error');
+          input.placeholder = 'Digite seu nome aqui...';
+        }, 2000);
+        return;
+      }
+      // Aqui vai redirecionar para o chat
+      alert(`Olá, ${name}! Redirecionando para o chat...`);
+    }
+  </script>
+</body>
+</html>
